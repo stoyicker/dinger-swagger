@@ -91,6 +91,13 @@ paths:
             expires:
               type: "integer"
               description: "-1"
+            server:
+              type: "string"
+              description: "nginx/1.8.0 + Phusion Passenger 5.0.22"
+              default: "nginx/1.8.0 + Phusion Passenger 5.0.22"
+            status:
+              type: "integer"
+              description: "200"
             transfer-encoding:
               type: "string"
               description: "chunked"
@@ -99,6 +106,10 @@ paths:
               type: "string"
               description: "accept-encoding"
               default: "accept-encoding"
+            x-powered-by:
+              type: "string"
+              description: "Express, Phusion Passenger 5.0.22"
+              default: "Express, Phusion Passenger 5.0.22"
             x-request-id:
               type: "string"
               description: "avscftcik4kj1l6galag"
