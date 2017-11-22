@@ -105,6 +105,7 @@ paths:
               default: "avscftcik4kj1l6galag"
 securityDefinitions:
   APIKeyHeader:
+    description: "Your API token, valid for 24 hours. It has the format of a UUID."
     type: "apiKey"
     name: "X-Auth-Token"
     in: "header"
