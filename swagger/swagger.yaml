@@ -87,6 +87,7 @@ paths:
               default: "Wed, 22 Nov 2017 09:47:15 GMT"
             etag:
               type: "string"
+              description: "W/78-8f8afa81"
               default: "W/78-8f8afa81"
             transfer-encoding:
               type: "string"
