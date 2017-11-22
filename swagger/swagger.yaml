@@ -78,9 +78,8 @@ paths:
               description: "gzip"
               default: "gzip"
             content-length:
-              type: "string"
+              type: "integer"
               description: "120"
-              default: "120"
             date:
               type: "string"
               description: "Wed, 22 Nov 2017 09:47:15 GMT"
