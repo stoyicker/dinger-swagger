@@ -1,0 +1,130 @@
+---
+swagger: "2.0"
+info:
+  description: "The Tinder API as utilized by https://github.com/stoyicker/dinger\n\
+    No commitment from the author to neither the correctness nor responsible usage\
+    \ of this documentation."
+  version: "8.1.1"
+  title: "Tinder by dinger (unofficial)"
+host: "api.gotinder.com"
+schemes:
+- "https"
+paths:
+  /v2/auth/login/facebook:
+    post:
+      summary: "Provides an API token to be used for authentication purposes with\
+        \ requests requiring authentication."
+      consumes:
+      - "application/json; charset=utf-8"
+      produces:
+      - "application/json; charset=utf-8"
+      parameters:
+      - name: "accept-encoding"
+        in: "header"
+        description: "gzip"
+        required: true
+        type: "string"
+        default: "gzip"
+      - name: "connection"
+        in: "header"
+        description: "keep-alive"
+        required: true
+        type: "string"
+        default: "keep-alive"
+      - name: "content-length"
+        in: "header"
+        description: "Body length in characters."
+        required: true
+        type: "integer"
+        default: 328
+      - name: "host"
+        in: "header"
+        description: "api.gotinder.com"
+        required: true
+        type: "string"
+        default: "api.gotinder.com"
+      - in: "body"
+        name: "loginParameters"
+        required: false
+        schema:
+          $ref: "#/definitions/loginParameters"
+      responses:
+        200:
+          description: "Success. You now have an object wrapping a token that can\
+            \ be used for authentication via the X-Auth-Token header for 24 hours."
+          schema:
+            $ref: "#/definitions/inline_response_200"
+          headers:
+            connection:
+              type: "string"
+              description: "keep-alive"
+              default: "keep-alive"
+            content-encoding:
+              type: "string"
+              description: "gzip"
+              default: "gzip"
+            date:
+              type: "string"
+              description: "Wed, 22 Nov 2017 09:47:15 GMT"
+              default: "Wed, 22 Nov 2017 09:47:15 GMT"
+            transfer-encoding:
+              type: "string"
+              description: "chunked"
+              default: "chunked"
+            vary:
+              type: "string"
+              description: "accept-encoding"
+              default: "accept-encoding"
+            x-request-id:
+              type: "string"
+              description: "avscftcik4kj1l6galag"
+              default: "avscftcik4kj1l6galag"
+securityDefinitions:
+  APIKeyHeader:
+    type: "apiKey"
+    name: "X-Auth-Token"
+    in: "header"
+definitions:
+  inline_response_200:
+    properties:
+      meta:
+        $ref: "#/definitions/inline_response_200_meta"
+      data:
+        $ref: "#/definitions/inline_response_200_data"
+  loginParameters:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "123456789123456"
+        description: "The user's facebook id."
+      token:
+        type: "string"
+        example: "2Y4dvjyXAycTofU83SZYCNQL6fpVOW15eq6Wz8tJKE0Eud4Hopo7EX2eJex3WoZtwFb5LWC6l6IpYGTMJ2HdMmJHiJo9LAmh4MsZoFlyLqquv8u2flzdkFUxkpkAePDj9T4u8KGNCWzTjRcOw3XsOhs1u9s3OADcaOEi1Bba74D79Ju9NHijggVPsClBwVbAdtjtXfYpI2ahZXALrkdHkFUmz8ewLGj3cVQ4zpGVZolqtCvkU5aEq2XPwme67YIeT34ex0"
+        description: "The user's facebook token acquired by logging in to the Tinder\
+          \ Facebook app."
+      client_version:
+        type: "string"
+        example: "8.1.1"
+        description: "* `8.1.1`\n"
+        enum:
+        - "8.1.1"
+        default: "8.1.1"
+  inline_response_200_meta:
+    properties:
+      status:
+        type: "integer"
+        example: 200
+        description: "Response code."
+    description: "Information about the request."
+  inline_response_200_data:
+    properties:
+      is_new_user:
+        type: "boolean"
+        example: false
+        description: "Is it the first time that this Faceook id asks for an API key?"
+      api_token:
+        type: "string"
+        example: "90dc7dd8-71fc-4e4c-aca2-5c86d1c5b5ff"
+        description: "A UUID that can be used to authenticate requests via the X-Auth-Token\
+          \ header for 24 hours."
