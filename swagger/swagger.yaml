@@ -7,11 +7,15 @@ info:
   version: "8.1.1"
   title: "Tinder by dinger (unofficial)"
 host: "api.gotinder.com"
+tags:
+- name: "Authentication"
 schemes:
 - "https"
 paths:
   /v2/auth/login/facebook:
     post:
+      tags:
+      - "Authentication"
       summary: "Provides an API token to be used for authentication purposes with\
         \ requests requiring authentication."
       consumes:
