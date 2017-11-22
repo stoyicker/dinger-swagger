@@ -88,6 +88,9 @@ paths:
               type: "string"
               description: "W/78-8f8afa81"
               default: "W/78-8f8afa81"
+            expires:
+              type: "integer"
+              description: "-1"
             transfer-encoding:
               type: "string"
               description: "chunked"
