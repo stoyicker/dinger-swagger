@@ -47,6 +47,12 @@ paths:
         required: true
         type: "string"
         default: "api.gotinder.com"
+      - name: "user-agent"
+        in: "header"
+        description: "okhttp/3.8.0"
+        required: true
+        type: "string"
+        default: "okhttp/3.8.0"
       - in: "body"
         name: "loginParameters"
         required: false
