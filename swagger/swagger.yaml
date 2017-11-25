@@ -9,6 +9,7 @@ info:
 host: "api.gotinder.com"
 tags:
 - name: "Authentication"
+- name: "Recommendations"
 schemes:
 - "https"
 paths:
@@ -67,8 +68,8 @@ paths:
           headers:
             cache-control:
               type: "string"
-              description: "false"
-              default: "false"
+              description: "no-cache"
+              default: "no-cache"
             connection:
               type: "string"
               description: "keep-alive"
@@ -106,6 +107,99 @@ paths:
               type: "string"
               description: "accept-encoding"
               default: "accept-encoding"
+            x-powered-by:
+              type: "string"
+              description: "Express, Phusion Passenger 5.0.22"
+              default: "Express, Phusion Passenger 5.0.22"
+            x-request-id:
+              type: "string"
+              description: "avscftcik4kj1l6galag"
+              default: "avscftcik4kj1l6galag"
+  /recs/core:
+    get:
+      tags:
+      - "Recommendations"
+      summary: "Provides a set of approximately 10 recommended profiles."
+      consumes:
+      - "application/json; charset=utf-8"
+      produces:
+      - "application/json; charset=utf-8"
+      parameters:
+      - name: "accept-encoding"
+        in: "header"
+        description: "gzip"
+        required: true
+        type: "string"
+        default: "gzip"
+      - name: "connection"
+        in: "header"
+        description: "keep-alive"
+        required: true
+        type: "string"
+        default: "keep-alive"
+      - name: "host"
+        in: "header"
+        description: "api.gotinder.com"
+        required: true
+        type: "string"
+        default: "api.gotinder.com"
+      - name: "platform"
+        in: "header"
+        description: "android"
+        required: true
+        type: "string"
+        default: "android"
+      - name: "user-agent"
+        in: "header"
+        description: "okhttp/3.8.0"
+        required: true
+        type: "string"
+        default: "okhttp/3.8.0"
+      - name: "x-auth-token"
+        in: "header"
+        description: "Your API token obtained via /v2/auth/login/facebook."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success. You now have a set of profile ids you can use to\
+            \ like and/or pass on the corresponding profiles."
+          schema:
+            $ref: "#/components/schemas/GetRecommendations"
+          headers:
+            cache-control:
+              type: "string"
+              description: "no-cache"
+              default: "no-cache"
+            connection:
+              type: "string"
+              description: "keep-alive"
+              default: "keep-alive"
+            content-encoding:
+              type: "string"
+              description: "gzip"
+              default: "gzip"
+            content-length:
+              type: "integer"
+              description: "11275"
+            date:
+              type: "string"
+              description: "Wed, 22 Nov 2017 09:47:15 GMT"
+              default: "Wed, 22 Nov 2017 09:47:15 GMT"
+            etag:
+              type: "string"
+              description: "W/78-8f8afa81"
+              default: "W/78-8f8afa81"
+            expires:
+              type: "integer"
+              description: "-1"
+            server:
+              type: "string"
+              description: "nginx/1.8.0 + Phusion Passenger 5.0.22"
+              default: "nginx/1.8.0 + Phusion Passenger 5.0.22"
+            status:
+              type: "integer"
+              description: "200"
             x-powered-by:
               type: "string"
               description: "Express, Phusion Passenger 5.0.22"
