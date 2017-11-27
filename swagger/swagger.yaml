@@ -120,8 +120,6 @@ paths:
       tags:
       - "Recommendations"
       summary: "Provides a set of approximately 10 recommended profiles."
-      consumes:
-      - "application/json; charset=utf-8"
       produces:
       - "application/json; charset=utf-8"
       parameters:
@@ -208,6 +206,101 @@ paths:
               type: "string"
               description: "avscftcik4kj1l6galag"
               default: "avscftcik4kj1l6galag"
+  /like/{profileId}:
+    get:
+      tags:
+      - "Recommendations"
+      summary: "Provides a set of approximately 10 recommended profiles."
+      produces:
+      - "application/json; charset=utf-8"
+      parameters:
+      - name: "profileId"
+        in: "path"
+        description: "The id of the profile to like"
+        required: true
+        type: "string"
+      - name: "accept-encoding"
+        in: "header"
+        description: "gzip"
+        required: true
+        type: "string"
+        default: "gzip"
+      - name: "connection"
+        in: "header"
+        description: "keep-alive"
+        required: true
+        type: "string"
+        default: "keep-alive"
+      - name: "host"
+        in: "header"
+        description: "api.gotinder.com"
+        required: true
+        type: "string"
+        default: "api.gotinder.com"
+      - name: "platform"
+        in: "header"
+        description: "android"
+        required: true
+        type: "string"
+        default: "android"
+      - name: "user-agent"
+        in: "header"
+        description: "okhttp/3.8.0"
+        required: true
+        type: "string"
+        default: "okhttp/3.8.0"
+      - name: "x-auth-token"
+        in: "header"
+        description: "Your API token obtained via /v2/auth/login/facebook."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success. You've now liked this profile."
+          schema:
+            $ref: "#/definitions/inline_response_200_2"
+          headers:
+            cache-control:
+              type: "string"
+              description: "no-cache"
+              default: "no-cache"
+            connection:
+              type: "string"
+              description: "keep-alive"
+              default: "keep-alive"
+            content-encoding:
+              type: "string"
+              description: "gzip"
+              default: "gzip"
+            content-length:
+              type: "integer"
+              description: "11275"
+            date:
+              type: "string"
+              description: "Wed, 22 Nov 2017 09:47:15 GMT"
+              default: "Wed, 22 Nov 2017 09:47:15 GMT"
+            etag:
+              type: "string"
+              description: "W/78-8f8afa81"
+              default: "W/78-8f8afa81"
+            expires:
+              type: "integer"
+              description: "-1"
+            server:
+              type: "string"
+              description: "nginx/1.8.0 + Phusion Passenger 5.0.22"
+              default: "nginx/1.8.0 + Phusion Passenger 5.0.22"
+            status:
+              type: "integer"
+              description: "200"
+            x-powered-by:
+              type: "string"
+              description: "Express, Phusion Passenger 5.0.22"
+              default: "Express, Phusion Passenger 5.0.22"
+            x-request-id:
+              type: "string"
+              description: "avscftcik4kj1l6galag"
+              default: "avscftcik4kj1l6galag"
 securityDefinitions:
   APIKeyHeader:
     description: "Your API token, valid for 24 hours. It has the format of a UUID."
@@ -238,6 +331,61 @@ definitions:
         type: "string"
       username:
         type: "string"
+  inline_response_200_1_processedFiles:
+    properties:
+      url:
+        type: "string"
+      height:
+        type: "number"
+      width:
+        type: "number"
+  loginParameters:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "123456789123456"
+        description: "The user's facebook id."
+      token:
+        type: "string"
+        example: "2Y4dvjyXAycTofU83SZYCNQL6fpVOW15eq6Wz8tJKE0Eud4Hopo7EX2eJex3WoZtwFb5LWC6l6IpYGTMJ2HdMmJHiJo9LAmh4MsZoFlyLqquv8u2flzdkFUxkpkAePDj9T4u8KGNCWzTjRcOw3XsOhs1u9s3OADcaOEi1Bba74D79Ju9NHijggVPsClBwVbAdtjtXfYpI2ahZXALrkdHkFUmz8ewLGj3cVQ4zpGVZolqtCvkU5aEq2XPwme67YIeT34ex0"
+        description: "The user's facebook token acquired by logging in to the Tinder\
+          \ Facebook app."
+      client_version:
+        type: "string"
+        example: "8.1.1"
+        description: "* `8.1.1`\n"
+        enum:
+        - "8.1.1"
+        default: "8.1.1"
+  inline_response_200_meta:
+    properties:
+      status:
+        type: "integer"
+        example: 200
+        description: "Response code."
+    description: "Information about the request."
+  inline_response_200_data:
+    properties:
+      is_new_user:
+        type: "boolean"
+        example: false
+        description: "Is it the first time that this Faceook id asks for an API key?"
+      api_token:
+        type: "string"
+        example: "90dc7dd8-71fc-4e4c-aca2-5c86d1c5b5ff"
+        description: "A UUID that can be used to authenticate requests via the X-Auth-Token\
+          \ header for 24 hours."
+  inline_response_200_1_photos:
+    properties:
+      id:
+        type: "string"
+      url:
+        type: "string"
+      processedFiles:
+        type: "array"
+        items:
+          $ref: "#/definitions/inline_response_200_1_processedFiles"
   inline_response_200_1_teasers:
     properties:
       type:
@@ -311,61 +459,16 @@ definitions:
         $ref: "#/definitions/inline_response_200_meta"
       data:
         $ref: "#/definitions/inline_response_200_data"
-  inline_response_200_1_processedFiles:
+  inline_response_200_2:
+    required:
+    - "match"
+    - "rate_limited_until"
     properties:
-      url:
-        type: "string"
-      height:
-        type: "number"
-      width:
-        type: "number"
-  loginParameters:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-        example: "123456789123456"
-        description: "The user's facebook id."
-      token:
-        type: "string"
-        example: "2Y4dvjyXAycTofU83SZYCNQL6fpVOW15eq6Wz8tJKE0Eud4Hopo7EX2eJex3WoZtwFb5LWC6l6IpYGTMJ2HdMmJHiJo9LAmh4MsZoFlyLqquv8u2flzdkFUxkpkAePDj9T4u8KGNCWzTjRcOw3XsOhs1u9s3OADcaOEi1Bba74D79Ju9NHijggVPsClBwVbAdtjtXfYpI2ahZXALrkdHkFUmz8ewLGj3cVQ4zpGVZolqtCvkU5aEq2XPwme67YIeT34ex0"
-        description: "The user's facebook token acquired by logging in to the Tinder\
-          \ Facebook app."
-      client_version:
-        type: "string"
-        example: "8.1.1"
-        description: "* `8.1.1`\n"
-        enum:
-        - "8.1.1"
-        default: "8.1.1"
-  inline_response_200_meta:
-    properties:
-      status:
-        type: "integer"
-        example: 200
-        description: "Response code."
-    description: "Information about the request."
-  inline_response_200_data:
-    properties:
-      is_new_user:
+      match:
         type: "boolean"
-        example: false
-        description: "Is it the first time that this Faceook id asks for an API key?"
-      api_token:
-        type: "string"
-        example: "90dc7dd8-71fc-4e4c-aca2-5c86d1c5b5ff"
-        description: "A UUID that can be used to authenticate requests via the X-Auth-Token\
-          \ header for 24 hours."
-  inline_response_200_1_photos:
-    properties:
-      id:
-        type: "string"
-      url:
-        type: "string"
-      processedFiles:
-        type: "array"
-        items:
-          $ref: "#/definitions/inline_response_200_1_processedFiles"
+        description: "Either false, or a model representing the target profile."
+      rate_limited_until:
+        type: "number"
   inline_response_200_1_instagram_photos:
     properties:
       image:
