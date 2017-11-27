@@ -165,7 +165,7 @@ paths:
           description: "Success. You now have a set of profile ids you can use to\
             \ like and/or pass on the corresponding profiles."
           schema:
-            $ref: "#/components/schemas/GetRecommendations"
+            $ref: "#/definitions/inline_response_200_1"
           headers:
             cache-control:
               type: "string"
@@ -215,12 +215,110 @@ securityDefinitions:
     name: "X-Auth-Token"
     in: "header"
 definitions:
+  inline_response_200_1_instagram:
+    required:
+    - "completed_initial_fetch"
+    - "last_fetch_time"
+    - "media_count"
+    - "photos"
+    - "profile_picture"
+    - "username"
+    properties:
+      last_fetch_time:
+        type: "string"
+      completed_initial_fetch:
+        type: "boolean"
+      photos:
+        type: "array"
+        items:
+          $ref: "#/definitions/inline_response_200_1_instagram_photos"
+      media_count:
+        type: "number"
+      profile_picture:
+        type: "string"
+      username:
+        type: "string"
+  inline_response_200_1_teasers:
+    properties:
+      type:
+        type: "string"
+      string:
+        type: "string"
+  inline_response_200_1_results:
+    properties:
+      group_matched:
+        type: "boolean"
+      distance_mi:
+        type: "number"
+      content_hash:
+        type: "string"
+      common_friends:
+        type: "array"
+      common_likes:
+        type: "array"
+      common_friend_count:
+        type: "number"
+      common_like_count:
+        type: "number"
+      connection_count:
+        type: "number"
+      _id:
+        type: "string"
+      bio:
+        type: "string"
+      birth_date:
+        type: "string"
+      name:
+        type: "string"
+      ping_time:
+        type: "string"
+      photos:
+        type: "array"
+        items:
+          $ref: "#/definitions/inline_response_200_1_photos"
+      instagram:
+        $ref: "#/definitions/inline_response_200_1_instagram"
+      jobs:
+        type: "array"
+      schools:
+        type: "array"
+      teaser:
+        $ref: "#/definitions/inline_response_200_1_teaser"
+      teasers:
+        type: "array"
+        items:
+          $ref: "#/definitions/inline_response_200_1_teasers"
+      gender:
+        type: "number"
+      birth_date_info:
+        type: "string"
+      s_number:
+        type: "number"
+  inline_response_200_1:
+    required:
+    - "results"
+    - "status"
+    properties:
+      status:
+        type: "number"
+      results:
+        type: "array"
+        items:
+          $ref: "#/definitions/inline_response_200_1_results"
   inline_response_200:
     properties:
       meta:
         $ref: "#/definitions/inline_response_200_meta"
       data:
         $ref: "#/definitions/inline_response_200_data"
+  inline_response_200_1_processedFiles:
+    properties:
+      url:
+        type: "string"
+      height:
+        type: "number"
+      width:
+        type: "number"
   loginParameters:
     type: "object"
     properties:
@@ -258,3 +356,29 @@ definitions:
         example: "90dc7dd8-71fc-4e4c-aca2-5c86d1c5b5ff"
         description: "A UUID that can be used to authenticate requests via the X-Auth-Token\
           \ header for 24 hours."
+  inline_response_200_1_photos:
+    properties:
+      id:
+        type: "string"
+      url:
+        type: "string"
+      processedFiles:
+        type: "array"
+        items:
+          $ref: "#/definitions/inline_response_200_1_processedFiles"
+  inline_response_200_1_instagram_photos:
+    properties:
+      image:
+        type: "string"
+      thumbnail:
+        type: "string"
+      ts:
+        type: "string"
+      link:
+        type: "string"
+  inline_response_200_1_teaser:
+    required:
+    - "string"
+    properties:
+      string:
+        type: "string"
