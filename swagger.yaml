@@ -1,1 +1,586 @@
+swagger: '2.0'
+info:
+  version: "8.4.1"
+  title: 'Tinder by dinger (unofficial)'
+  description: 'The Tinder API as utilized by https://github.com/stoyicker/dinger 
 
+                No commitment from the author to neither the correctness nor responsible usage of this documentation.'
+host: api.gotinder.com
+schemes:
+ - https
+securityDefinitions:
+   APIKeyHeader:
+     type: apiKey
+     in: header
+     name: X-Auth-Token
+     description: Your API token, valid for 24 hours. It has the format of a UUID.
+tags:
+  - name: Authentication
+  - name: Recommendations
+paths:
+  /v2/auth/login/facebook:
+    post:
+      tags:
+        - Authentication
+      summary: Provides an API token to be used for authentication purposes with requests requiring authentication.
+      consumes:
+        - application/json; charset=utf-8
+      produces:
+        - application/json; charset=utf-8
+      parameters:
+        - in: header
+          name: accept-encoding
+          type: string
+          required: true
+          default: gzip
+          description: gzip
+        - in: header
+          name: connection
+          type: string
+          required: true
+          default: keep-alive
+          description: keep-alive
+        - in: header
+          name: content-length
+          type: integer
+          required: true
+          default: 328
+          description: Body length in characters.
+        - in: header
+          name: host
+          type: string
+          required: true
+          default: api.gotinder.com
+          description: api.gotinder.com
+        - in: header
+          name: user-agent
+          type: string
+          required: true
+          default: okhttp/3.8.0
+          description: okhttp/3.8.0
+        - in: body
+          name: loginParameters
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: The user's facebook id.
+                example: 123456789123456
+              token:
+                type: string
+                description: The user's facebook token acquired by logging in to the Tinder Facebook app.
+                example: 2Y4dvjyXAycTofU83SZYCNQL6fpVOW15eq6Wz8tJKE0Eud4Hopo7EX2eJex3WoZtwFb5LWC6l6IpYGTMJ2HdMmJHiJo9LAmh4MsZoFlyLqquv8u2flzdkFUxkpkAePDj9T4u8KGNCWzTjRcOw3XsOhs1u9s3OADcaOEi1Bba74D79Ju9NHijggVPsClBwVbAdtjtXfYpI2ahZXALrkdHkFUmz8ewLGj3cVQ4zpGVZolqtCvkU5aEq2XPwme67YIeT34ex0
+              client_version:
+                type: string
+                enum: [8.2.0]
+                example: 8.2.0
+                default: 8.2.0
+                description: > 
+                  * `8.2.0`
+      responses:
+        200:
+          description: Success. You now have an object wrapping a token that can be used for authentication via the X-Auth-Token header for 24 hours.
+          headers:
+            cache-control:
+              type: string
+              default: no-cache
+              description: no-cache
+            connection:
+              type: string
+              default: keep-alive
+              description: keep-alive
+            content-encoding:
+              type: string
+              default: gzip
+              description: gzip
+            content-length:
+              type: integer
+              default: 120
+              description: "120"
+            date:
+              type: string
+              default: Wed, 22 Nov 2017 09:47:15 GMT
+              description: Wed, 22 Nov 2017 09:47:15 GMT
+            etag:
+              type: string
+              default: W/78-8f8afa81
+              description: W/78-8f8afa81
+            expires:
+              type: integer
+              default: -1
+              description: "-1"
+            server:
+              type: string
+              default: nginx/1.8.0 + Phusion Passenger 5.0.22
+              description: nginx/1.8.0 + Phusion Passenger 5.0.22
+            status:
+              type: integer
+              default: 200
+              description: "200"
+            transfer-encoding:
+              type: string
+              default: chunked
+              description: chunked
+            vary:
+              type: string
+              default: accept-encoding
+              description: accept-encoding
+            x-powered-by:
+              type: string
+              default: Express, Phusion Passenger 5.0.22 
+              description: Express, Phusion Passenger 5.0.22 
+            x-request-id:
+              type: string
+              default: avscftcik4kj1l6galag
+              description: avscftcik4kj1l6galag
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                description: Information about the request.
+                properties:
+                  status:
+                    type: integer
+                    description: Response code.
+                    example: 200
+              data:
+                type: object
+                properties:
+                  is_new_user:
+                    type: boolean
+                    description: Is it the first time that this Faceook id asks for an API key?
+                    example: false
+                  api_token:
+                    type: string
+                    description: A UUID that can be used to authenticate requests via the X-Auth-Token header for 24 hours.
+                    example: 90dc7dd8-71fc-4e4c-aca2-5c86d1c5b5ff
+  /recs/core:
+    get:
+      tags:
+        - Recommendations
+      summary: Provides a set of approximately 10 recommended profiles.
+      produces:
+        - application/json; charset=utf-8
+      parameters:
+        - in: header
+          name: accept-encoding
+          type: string
+          required: true
+          default: gzip
+          description: gzip
+        - in: header
+          name: connection
+          type: string
+          required: true
+          default: keep-alive
+          description: keep-alive
+        - in: header
+          name: host
+          type: string
+          required: true
+          default: api.gotinder.com
+          description: api.gotinder.com
+        - in: header
+          name: platform
+          type: string
+          required: true
+          default: android
+          description: android
+        - in: header
+          name: user-agent
+          type: string
+          required: true
+          default: okhttp/3.8.0
+          description: okhttp/3.8.0
+        - in: header
+          name: x-auth-token
+          type: string
+          required: true
+          default: ""
+          description: Your API token obtained via /v2/auth/login/facebook.
+      responses:
+        200:
+          description: Success. You now have a set of profile ids you can use to like and/or pass on the corresponding profiles.
+          headers:
+            cache-control:
+              type: string
+              default: no-cache
+              description: no-cache
+            connection:
+              type: string
+              default: keep-alive
+              description: keep-alive
+            content-encoding:
+              type: string
+              default: gzip
+              description: gzip
+            content-length:
+              type: integer
+              default: 11275
+              description: "11275"
+            date:
+              type: string
+              default: Wed, 22 Nov 2017 09:47:15 GMT
+              description: Wed, 22 Nov 2017 09:47:15 GMT
+            etag:
+              type: string
+              default: W/78-8f8afa81
+              description: W/78-8f8afa81
+            expires:
+              type: integer
+              default: -1
+              description: "-1"
+            server:
+              type: string
+              default: nginx/1.8.0 + Phusion Passenger 5.0.22
+              description: nginx/1.8.0 + Phusion Passenger 5.0.22
+            status:
+              type: integer
+              default: 200
+              description: "200"
+            x-powered-by:
+              type: string
+              default: Express, Phusion Passenger 5.0.22 
+              description: Express, Phusion Passenger 5.0.22 
+            x-request-id:
+              type: string
+              default: avscftcik4kj1l6galag
+              description: avscftcik4kj1l6galag
+          schema:
+            required: 
+              - "status"
+              - "results"
+            properties: 
+              status: 
+                type: "number"
+              results: 
+                type: "array"
+                items: 
+                  type: "object"
+                  properties: 
+                    group_matched: 
+                      type: "boolean"
+                    distance_mi: 
+                      type: "number"
+                    content_hash: 
+                      type: "string"
+                    common_friends: 
+                      type: "array"
+                      items: 
+                        type: "null"
+                    common_likes: 
+                      type: "array"
+                      items: 
+                        type: "null"
+                    common_friend_count: 
+                      type: "number"
+                    common_like_count: 
+                      type: "number"
+                    connection_count: 
+                      type: "number"
+                    _id: 
+                      type: "string"
+                    bio: 
+                      type: "string"
+                    birth_date: 
+                      type: "string"
+                    name: 
+                      type: "string"
+                    ping_time: 
+                      type: "string"
+                    photos: 
+                      type: "array"
+                      items: 
+                        type: "object"
+                        properties: 
+                          id: 
+                            type: "string"
+                          url: 
+                            type: "string"
+                          processedFiles: 
+                            type: "array"
+                            items: 
+                              type: "object"
+                              properties: 
+                                url: 
+                                  type: "string"
+                                height: 
+                                  type: "number"
+                                width: 
+                                  type: "number"
+                    instagram: 
+                      required: 
+                        - "last_fetch_time"
+                        - "completed_initial_fetch"
+                        - "photos"
+                        - "media_count"
+                        - "profile_picture"
+                        - "username"
+                      properties: 
+                        last_fetch_time: 
+                          type: "string"
+                        completed_initial_fetch: 
+                          type: "boolean"
+                        photos: 
+                          type: "array"
+                          items: 
+                            type: "object"
+                            properties: 
+                              image: 
+                                type: "string"
+                              thumbnail: 
+                                type: "string"
+                              ts: 
+                                type: "string"
+                              link: 
+                                type: "string"
+                        media_count: 
+                          type: "number"
+                        profile_picture: 
+                          type: "string"
+                        username: 
+                          type: "string"
+                      type: "object"
+                    jobs: 
+                      type: "array"
+                      items: 
+                        type: "null"
+                    schools: 
+                      type: "array"
+                      items: 
+                        type: "null"
+                    teaser: 
+                      required: 
+                        - "string"
+                      properties: 
+                        string: 
+                          type: "string"
+                      type: "object"
+                    teasers: 
+                      type: "array"
+                      items: 
+                        type: "object"
+                        properties: 
+                          type: 
+                            type: "string"
+                          string: 
+                            type: "string"
+                    gender: 
+                      type: "number"
+                    birth_date_info: 
+                      type: "string"
+                    s_number: 
+                      type: "number"
+  /like/{profileId}:
+    get:
+      tags:
+        - Recommendations
+      summary: Attempts to like a given profile. Will fail if the temporary cap is reached.
+      produces:
+        - application/json; charset=utf-8
+      parameters:
+        - in: path
+          name: profileId
+          required: true
+          type: string
+          description: The id of the profile to like
+        - in: header
+          name: accept-encoding
+          type: string
+          required: true
+          default: gzip
+          description: gzip
+        - in: header
+          name: connection
+          type: string
+          required: true
+          default: keep-alive
+          description: keep-alive
+        - in: header
+          name: host
+          type: string
+          required: true
+          default: api.gotinder.com
+          description: api.gotinder.com
+        - in: header
+          name: platform
+          type: string
+          required: true
+          default: android
+          description: android
+        - in: header
+          name: user-agent
+          type: string
+          required: true
+          default: okhttp/3.8.0
+          description: okhttp/3.8.0
+        - in: header
+          name: x-auth-token
+          type: string
+          required: true
+          default: ""
+          description: Your API token obtained via /v2/auth/login/facebook.
+      responses:
+        200:
+          description: Success.
+          headers:
+            cache-control:
+              type: string
+              default: no-cache
+              description: no-cache
+            connection:
+              type: string
+              default: keep-alive
+              description: keep-alive
+            content-encoding:
+              type: string
+              default: gzip
+              description: gzip
+            content-length:
+              type: integer
+              default: 11275
+              description: "11275"
+            date:
+              type: string
+              default: Wed, 22 Nov 2017 09:47:15 GMT
+              description: Wed, 22 Nov 2017 09:47:15 GMT
+            etag:
+              type: string
+              default: W/78-8f8afa81
+              description: W/78-8f8afa81
+            expires:
+              type: integer
+              default: -1
+              description: "-1"
+            server:
+              type: string
+              default: nginx/1.8.0 + Phusion Passenger 5.0.22
+              description: nginx/1.8.0 + Phusion Passenger 5.0.22
+            status:
+              type: integer
+              default: 200
+              description: "200"
+            x-powered-by:
+              type: string
+              default: Express, Phusion Passenger 5.0.22 
+              description: Express, Phusion Passenger 5.0.22 
+            x-request-id:
+              type: string
+              default: avscftcik4kj1l6galag
+              description: avscftcik4kj1l6galag
+          schema:
+            required: 
+              - "match"
+              - "rate_limited_until"
+            properties: 
+              match: 
+                type: "boolean"
+                description: Either false, or a model representing the target profile.
+              rate_limited_until: 
+                type: number
+  /pass/{profileId}:
+    get:
+      tags:
+        - Recommendations
+      summary: Dislikes a profile.
+      produces:
+        - application/json; charset=utf-8
+      parameters:
+        - in: path
+          name: profileId
+          required: true
+          type: string
+          description: The id of the profile to like
+        - in: header
+          name: accept-encoding
+          type: string
+          required: true
+          default: gzip
+          description: gzip
+        - in: header
+          name: connection
+          type: string
+          required: true
+          default: keep-alive
+          description: keep-alive
+        - in: header
+          name: host
+          type: string
+          required: true
+          default: api.gotinder.com
+          description: api.gotinder.com
+        - in: header
+          name: platform
+          type: string
+          required: true
+          default: android
+          description: android
+        - in: header
+          name: user-agent
+          type: string
+          required: true
+          default: okhttp/3.8.0
+          description: okhttp/3.8.0
+        - in: header
+          name: x-auth-token
+          type: string
+          required: true
+          default: ""
+          description: Your API token obtained via /v2/auth/login/facebook.
+      responses:
+        200:
+          description: Success.
+          headers:
+            cache-control:
+              type: string
+              default: no-cache
+              description: no-cache
+            connection:
+              type: string
+              default: keep-alive
+              description: keep-alive
+            content-encoding:
+              type: string
+              default: gzip
+              description: gzip
+            content-length:
+              type: integer
+              default: 11275
+              description: "11275"
+            date:
+              type: string
+              default: Wed, 22 Nov 2017 09:47:15 GMT
+              description: Wed, 22 Nov 2017 09:47:15 GMT
+            etag:
+              type: string
+              default: W/78-8f8afa81
+              description: W/78-8f8afa81
+            expires:
+              type: integer
+              default: -1
+              description: "-1"
+            server:
+              type: string
+              default: nginx/1.8.0 + Phusion Passenger 5.0.22
+              description: nginx/1.8.0 + Phusion Passenger 5.0.22
+            status:
+              type: integer
+              default: 200
+              description: "200"
+            x-powered-by:
+              type: string
+              default: Express, Phusion Passenger 5.0.22 
+              description: Express, Phusion Passenger 5.0.22 
+            x-request-id:
+              type: string
+              default: avscftcik4kj1l6galag
+              description: avscftcik4kj1l6galag
+          schema:
+            required: 
+              - "status"
+            properties: 
+              status: 
+                type: number
+                description: The HTTP status code of the response.
