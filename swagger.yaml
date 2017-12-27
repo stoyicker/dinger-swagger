@@ -1,12 +1,1 @@
----
-swagger: "2.0"
-info:
-  description: "The Tinder API as utilized by https://github.com/stoyicker/dinger"
-  version: "8.1.1"
-  title: "Tinder by dinger (unofficial)"
-host: "api.gotinder.com"
-basePath: "/"
-schemes:
-- "https"
-paths: {}
-definitions: {}
+
